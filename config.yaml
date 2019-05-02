@@ -1,0 +1,43 @@
+proxy:
+  secretToken: <<TOKEN_GOES_HERE>>
+
+hub:
+  cookieSecret: <<TOKEN_GOES_HERE>>
+  db:
+    url: postgres+psycopg2://postgres:change_this_password@pgdatabase-postgresql.pgdatabase.svc.cluster.local:5432/jhubdb
+    type: postgres
+    password: change_this_password
+
+singleuser:
+  cpu:
+    limit: 1
+    guarantee: 0.05
+  memory:
+    limit: 2G
+    guarantee: 512M
+  storage:
+    type: none
+
+# culling old users, unit: seconds    
+cull:
+  enabled: true
+  timeout: 1800
+  every: 300
+
+auth:
+  admin:
+    users:
+      - admin
+    access: false
+
+# allow image to be prepulled
+prePuller:
+  continuous:
+    enabled: true
+# pod priority - scale up nodes ahead of real users arrivals
+# user scheduler - pack users tight on some nodes
+scheduling:
+  userScheduler:
+    enabled: true
+  podPriority:
+    enabled: true
